@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    tools:context="com.ompv.amigos.myapplication.LoginActivity"
+    android:orientation="vertical"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical"
+        android:paddingLeft="20dp"
+        android:paddingRight="20dp"
+        android:layout_marginTop="100dp">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="150dp"
+            android:layout_height="129dp"
+            android:layout_gravity="center_horizontal"
+            app:srcCompat="@drawable/logo" />
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            >
+
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Username"
+                android:textColor="#FFF"
+                android:textColorHint="#FFF"/>
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/password"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Password"
+                android:textColor="#FFF"
+                android:textColorHint="#FFF"/>
+
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="173dp"
+        android:orientation="vertical"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp">
+
+        <TextView
+            android:id="@+id/signIn"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/signin_background"
+            android:gravity="center"
+            android:text="SIGN IN"
+            android:textColor="#FFF"
+            android:textSize="18sp" />
+
+        <TextView
+            android:id="@+id/textView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:text="OR"
+            android:textColor="@android:color/background_light"
+            android:textColorLink="@android:color/background_light"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/signInFacebook"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/signin_facebook_background"
+            android:gravity="center"
+            android:text="SIGN IN WITH FACEBOOK"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:drawableLeft="@drawable/facebook_logo"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp"/>
+        <TextView
+            android:id="@+id/signInTwitter"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:background="@drawable/signin_twitter_background"
+            android:gravity="center"
+            android:text="SIGN IN WITH TWITTER"
+            android:textColor="#FFF"
+            android:textSize="18sp"
+            android:layout_marginTop="5dp"
+            android:drawableLeft="@drawable/twitter_logo"
+            android:layout_marginBottom="5dp"/>
+
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="38dp"
+        android:paddingRight="30dp"
+        android:paddingLeft="30dp">
+
+        <TextView
+            android:id="@+id/help"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Need Help?"
+            android:layout_alignParentLeft="true"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold"/>
+
+        <TextView
+            android:id="@+id/createAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:text="Create An Account"
+            android:textColor="@android:color/background_light"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </RelativeLayout>
+
+
+</LinearLayout>
