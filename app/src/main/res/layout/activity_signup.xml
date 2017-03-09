@@ -38,7 +38,19 @@
                 android:textColor="#FFF"
                 android:textColorHint="#FFF"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <EditText
+                android:id="@+id/mail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/Email"
+                android:textColor="#FFF"
+                android:textColorHint="#FFF"/>
+
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
         <com.wrapp.floatlabelededittext.FloatLabeledEditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
@@ -53,8 +65,21 @@
                 android:textColorHint="#FFF"/>
 
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
-    </LinearLayout>
+        <com.wrapp.floatlabelededittext.FloatLabeledEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
+            <EditText
+                android:inputType="textPassword"
+                android:id="@+id/passwordagain"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/PasswordAgain"
+                android:textColor="#FFF"
+                android:textColorHint="#FFF"/>
+
+        </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+    </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -64,79 +89,13 @@
         android:paddingBottom="30dp">
 
         <TextView
-            android:id="@+id/signIn"
+            android:id="@+id/signUp"
             android:layout_width="match_parent"
             android:layout_height="40dp"
             android:background="@drawable/signin_background"
             android:gravity="center"
-            android:text="@string/SignIn"
+            android:text="@string/SignUp"
             android:textColor="#FFF"
             android:textSize="18sp" />
-
-        <TextView
-            android:id="@+id/textView2"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center_horizontal"
-            android:text="@string/Or"
-            android:textColor="@android:color/background_light"
-            android:textColorLink="@android:color/background_light"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/signInFacebook"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/signin_facebook_background"
-            android:gravity="center"
-            android:text="@string/SignInFacebook"
-            android:textColor="#FFF"
-            android:textSize="18sp"
-            android:drawableLeft="@drawable/facebook_logo"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp"/>
-        <TextView
-            android:id="@+id/signInTwitter"
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:background="@drawable/signin_twitter_background"
-            android:gravity="center"
-            android:text="@string/SignInTwitter"
-            android:textColor="#FFF"
-            android:textSize="18sp"
-            android:layout_marginTop="5dp"
-            android:drawableLeft="@drawable/twitter_logo"
-            android:layout_marginBottom="5dp"/>
-
-
-    </LinearLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="38dp"
-        android:paddingRight="30dp"
-        android:paddingLeft="30dp">
-
-        <TextView
-            android:id="@+id/help"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Help"
-            android:layout_alignParentLeft="true"
-            android:textColor="@android:color/background_light"
-            android:textSize="14sp"
-            android:textStyle="bold"/>
-
-        <TextView
-            android:id="@+id/createAccount"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:text="@string/CreateAccount"
-            android:textColor="@android:color/background_light"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </RelativeLayout>
-
-
+        </LinearLayout>
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.ompv.amigos.myapplication;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import com.ompv.amigos.SignUpActivity;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,7 +56,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.signInFacebook:{}break;
             case R.id.signInTwitter:{}break;
             case R.id.help:{}break;
-            case R.id.createAccount:{}break;
+            case R.id.createAccount:{
+                Intent intent = new Intent(getApplicationContext(), SignUpActivity.class);
+                startActivity(intent);
+            }break;
         }
 
     }
