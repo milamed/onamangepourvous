@@ -1,3 +1,11 @@
 <resources>
-    <string name="app_name">My Application</string>
+    <string name="app_name">On a Mangé Pour Vous</string>
+    <string name="Username">Username</string>
+    <string name="Password">Password</string>
+    <string name="SignIn">SIGN IN</string>
+    <string name="SignInFacebook">SIGN IN WITH FACEBOOK</string>
+    <string name="SignInTwitter">SIGN IN WITH TWITTER</string>
+    <string name="Or">OR</string>
+    <string name="Help">Need Help?</string>
+    <string name="CreateAccount">Create An Account</string>
 </resources>

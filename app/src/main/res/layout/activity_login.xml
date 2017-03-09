@@ -34,7 +34,7 @@
                 android:id="@+id/username"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Username"
+                android:hint="@string/Username"
                 android:textColor="#FFF"
                 android:textColorHint="#FFF"/>
         </com.wrapp.floatlabelededittext.FloatLabeledEditText>
@@ -47,7 +47,7 @@
                 android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="Password"
+                android:hint="@string/Password"
                 android:textColor="#FFF"
                 android:textColorHint="#FFF"/>
 
@@ -68,7 +68,7 @@
             android:layout_height="40dp"
             android:background="@drawable/signin_background"
             android:gravity="center"
-            android:text="SIGN IN"
+            android:text="@string/SignIn"
             android:textColor="#FFF"
             android:textSize="18sp" />
 
@@ -77,7 +77,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_horizontal"
-            android:text="OR"
+            android:text="@string/Or"
             android:textColor="@android:color/background_light"
             android:textColorLink="@android:color/background_light"
             android:layout_marginTop="5dp"
@@ -88,7 +88,7 @@
             android:layout_height="40dp"
             android:background="@drawable/signin_facebook_background"
             android:gravity="center"
-            android:text="SIGN IN WITH FACEBOOK"
+            android:text="@string/SignInFacebook"
             android:textColor="#FFF"
             android:textSize="18sp"
             android:drawableLeft="@drawable/facebook_logo"
@@ -100,7 +100,7 @@
             android:layout_height="40dp"
             android:background="@drawable/signin_twitter_background"
             android:gravity="center"
-            android:text="SIGN IN WITH TWITTER"
+            android:text="@string/SignInTwitter"
             android:textColor="#FFF"
             android:textSize="18sp"
             android:layout_marginTop="5dp"
@@ -120,7 +120,7 @@
             android:id="@+id/help"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Need Help?"
+            android:text="@string/Help"
             android:layout_alignParentLeft="true"
             android:textColor="@android:color/background_light"
             android:textSize="14sp"
@@ -131,7 +131,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:text="Create An Account"
+            android:text="@string/CreateAccount"
             android:textColor="@android:color/background_light"
             android:textSize="14sp"
             android:textStyle="bold" />
