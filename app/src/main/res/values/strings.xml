@@ -11,5 +11,7 @@
     <string name="Help">Need Help?</string>
     <string name="CreateAccount">Create An Account</string>
     <string name="Email">Email</string>
+    <string name="customer">Customer</string>
+    <string name="restaurant">Restaurant</string>
 
 </resources>
