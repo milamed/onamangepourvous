@@ -9,8 +9,6 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.ompv.amigos.SignUpActivity;
-
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private EditText mUsername;
