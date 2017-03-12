@@ -16,7 +16,16 @@
             </intent-filter>
         </activity>
         <activity android:name=".home" />
-        <activity android:name=".SignUpActivity"></activity>
+        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".MainActivityMEnu"
+            android:label="@string/title_activity_main_menu"
+            android:parentActivityName=".HomeMenuTab"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.ompv.amigos.myapplication.HomeMenuTab" />
+        </activity>
     </application>
 
 </manifest>

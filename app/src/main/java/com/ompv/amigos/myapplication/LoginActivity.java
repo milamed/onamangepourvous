@@ -50,7 +50,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch(v.getId())
         {
-            case R.id.signIn:{}break;
+            case R.id.signIn:{
+                Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
+                startActivity(intent);
+
+            }break;
             case R.id.signInFacebook:{}break;
             case R.id.signInTwitter:{}break;
             case R.id.help:{}break;
