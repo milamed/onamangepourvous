@@ -141,6 +141,7 @@ public class MainActivityMEnu extends AppCompatActivity {
             return PlaceholderFragment.newInstance(position + 1);
         }
 
+
         @Override
         public int getCount() {
             // Show 3 total pages.
