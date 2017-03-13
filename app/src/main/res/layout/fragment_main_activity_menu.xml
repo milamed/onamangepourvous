@@ -9,13 +9,16 @@
     tools:context="com.ompv.amigos.myapplication.MainActivityMEnu$PlaceholderFragment">
 
 
+
     <TextView
-        android:id="@+id/section_label"
+        android:text="yessine"
+        android:id="@+id/title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@id/image"
         android:textColor="@android:color/black" />
+
 
 
 </RelativeLayout>
