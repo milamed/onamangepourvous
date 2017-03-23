@@ -95,7 +95,7 @@ public class MainActivityMEnu extends AppCompatActivity {
      */
 
 
-       public static class PlaceholderFragment extends Fragment {
+    public static class PlaceholderFragment extends Fragment {
 
 
         private static final String ARG_SECTION_NUMBER = "section_number";
@@ -116,7 +116,7 @@ public class MainActivityMEnu extends AppCompatActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main_activity_menu, container, false);
-           //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
+            //TextView textView = (TextView) rootView.findViewById(R.id.section_label);
             //textView.setText(getString(R.string.section_format, getArguments().getInt(ARG_SECTION_NUMBER)));
             return rootView;
         }
@@ -137,20 +137,21 @@ public class MainActivityMEnu extends AppCompatActivity {
         public Fragment getItem(int position) {
             // getItem is called to instantiate the fragment for the given page.
             // Return a PlaceholderFragment (defined as a static inner class below).
-           //  return PlaceholderFragment.newInstance(position + 1);
+            //  return PlaceholderFragment.newInstance(position + 1);
 
 
             switch (position) {
                 case 0:
-                    MainActivityMEnuALLPUB pub=new MainActivityMEnuALLPUB();
+                    MainActivityMEnuALLPUB pub = new MainActivityMEnuALLPUB();
                     return pub;
                 case 1:
-                    MainActivityMEnuPost  POST=new MainActivityMEnuPost();
+                    MainActivityMEnuPost POST = new MainActivityMEnuPost();
                     return POST;
                 case 2:
-                    MainActivityMEnuProfil Tabprofil=new MainActivityMEnuProfil();
+                    MainActivityMEnuProfil Tabprofil = new MainActivityMEnuProfil();
                     return Tabprofil;
-                default: return null;
+                default:
+                    return null;
             }
 
 
