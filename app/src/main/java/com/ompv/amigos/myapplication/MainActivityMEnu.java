@@ -19,9 +19,14 @@ import android.view.ViewGroup;
 import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 
-public class MainActivityMEnu extends AppCompatActivity {
+public class    MainActivityMEnu extends AppCompatActivity {
 
-
+    private int[] imageResId = {
+            R.drawable.facebook_logo,
+            R.drawable.facebook_logo,
+            R.drawable.facebook_logo
+    };
+    TabLayout tabLayout;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
      * fragments for each of the sections. We use a
@@ -45,6 +50,7 @@ public class MainActivityMEnu extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
         mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -55,15 +61,27 @@ public class MainActivityMEnu extends AppCompatActivity {
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
+       // setupTabIcons();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        tabLayout.getTabAt(0).setIcon(R.drawable.iconpublic);
+        tabLayout.getTabAt(1).setIcon(R.drawable.localpub);
+        tabLayout.getTabAt(2).setIcon(R.drawable.account_circle);
+
+       /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
-        });
+        });*/
+
+    }
+
+    private void setupTabIcons() {
+        tabLayout.getTabAt(0).setIcon(imageResId[0]);
+        tabLayout.getTabAt(1).setIcon(imageResId[1]);
+        tabLayout.getTabAt(2).setIcon(imageResId[2]);
 
     }
 
