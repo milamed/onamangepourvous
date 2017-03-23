@@ -21,11 +21,7 @@ import android.widget.TextView;
 
 public class    MainActivityMEnu extends AppCompatActivity {
 
-    private int[] imageResId = {
-            R.drawable.facebook_logo,
-            R.drawable.facebook_logo,
-            R.drawable.facebook_logo
-    };
+
     TabLayout tabLayout;
     /**
      * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -78,12 +74,6 @@ public class    MainActivityMEnu extends AppCompatActivity {
 
     }
 
-    private void setupTabIcons() {
-        tabLayout.getTabAt(0).setIcon(imageResId[0]);
-        tabLayout.getTabAt(1).setIcon(imageResId[1]);
-        tabLayout.getTabAt(2).setIcon(imageResId[2]);
-
-    }
 
 
     @Override
