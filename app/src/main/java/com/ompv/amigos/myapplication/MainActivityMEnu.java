@@ -45,7 +45,10 @@ public class    MainActivityMEnu extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        getSupportActionBar().setLogo(R.drawable.logo);
+
 
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
