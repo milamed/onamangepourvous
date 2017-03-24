@@ -1,5 +1,6 @@
 package com.ompv.amigos.myapplication;
 
+import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -65,6 +66,8 @@ public class    MainActivityMEnu extends AppCompatActivity {
         tabLayout.getTabAt(0).setIcon(R.drawable.iconpublic);
         tabLayout.getTabAt(1).setIcon(R.drawable.localpub);
         tabLayout.getTabAt(2).setIcon(R.drawable.account_circle);
+
+
 
        /* FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +143,8 @@ public class    MainActivityMEnu extends AppCompatActivity {
      */
     public class SectionsPagerAdapter extends FragmentPagerAdapter {
 
+
+
         public SectionsPagerAdapter(FragmentManager fm) {
             super(fm);
         }
@@ -190,5 +195,7 @@ public class    MainActivityMEnu extends AppCompatActivity {
             }
             return null;
         }
+
+
     }
 }
