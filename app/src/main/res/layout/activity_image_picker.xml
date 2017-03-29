@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_vertical"
+    android:orientation="vertical"
+    tools:context="com.ompv.amigos.myapplication.ImagePicker"
+    android:paddingLeft="30dp"
+    android:paddingRight="30dp"
+    android:background="@drawable/login_background">
+
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:srcCompat="@drawable/logo"
+        android:layout_marginBottom="30dp"/>
+
+    <TextView
+        android:id="@+id/camera"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_btn_cam"
+        android:drawableLeft="@drawable/camera"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="30dp"
+        android:text="TAKE A NEW PHOTO"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/gallery"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/background_btn_cam"
+        android:drawableLeft="@drawable/gallery"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="30dp"
+        android:text=" USE PHOTO ALBUM"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>
+
+

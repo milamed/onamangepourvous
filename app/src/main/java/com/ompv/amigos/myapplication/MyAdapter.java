@@ -44,7 +44,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
             mCardView = (CardView) v.findViewById(R.id.card_view);
             mTextView = (TextView) v.findViewById(R.id.tv_text);
-            mEmail = (TextView) v.findViewById(R.id.email);
+
             mImage = (ImageView) v.findViewById(R.id.zoneimage);
         }
 
@@ -67,7 +67,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position){
         DataClassAtt p=mDataset.get(position);
         holder.mTextView.setText(p.getFirstName());
-        holder.mEmail.setText(p.getEmail());
+        
        // Uri imgUri=Uri.parse(p.getMimage());
        // holder.mImage.setImageURI(imgUri);
 

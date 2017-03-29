@@ -3,7 +3,6 @@
     package="com.ompv.amigos.myapplication">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
@@ -30,6 +29,7 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ompv.amigos.myapplication.HomeMenuTab" />
         </activity>
+        <activity android:name=".ImagePicker"></activity>
     </application>
 
 </manifest>
