@@ -29,7 +29,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.ompv.amigos.myapplication.HomeMenuTab" />
         </activity>
-        <activity android:name=".ImagePicker"></activity>
+        <activity android:name=".ImagePicker" />
+        <activity android:name=".InterfacePublication"></activity>
     </application>
 
 </manifest>

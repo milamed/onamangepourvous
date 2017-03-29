@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/login_background"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    tools:context="com.ompv.amigos.myapplication.InterfacePublication"
+    android:paddingLeft="20dp"
+    android:paddingRight="20dp"
+    >
+
+    <ImageView
+        android:id="@+id/img"
+        android:layout_width="400dp"
+        android:layout_height="200dp"
+        app:srcCompat="@drawable/logo"
+        android:layout_marginTop="20dp"/>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/nomPlat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Nom du plat"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/descriptionPlat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Description du plat"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/prixPlat"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="prixPlat"
+            android:textColor="#FFF"
+            android:textColorHint="#FFF" />
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+    <TextView
+        android:id="@+id/share"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="30dp"
+        android:background="@drawable/background_btn_cam"
+        android:drawableLeft="@drawable/share_logo"
+        android:gravity="center_vertical|center_horizontal"
+        android:paddingLeft="15dp"
+        android:paddingRight="5dp"
+        android:text="Publier"
+        android:textColor="@color/cardview_light_background"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+</LinearLayout>
