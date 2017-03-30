@@ -83,6 +83,7 @@
             android:textColorLink="@android:color/background_light"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"/>
+        <!--
         <TextView
             android:id="@+id/signInFacebook"
             android:layout_width="match_parent"
@@ -95,6 +96,13 @@
             android:drawableLeft="@drawable/facebook_logo"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"/>
+            -->
+        <com.facebook.login.widget.LoginButton
+            android:id="@+id/signInFacebook"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            />
         <TextView
             android:id="@+id/signInTwitter"
             android:layout_width="match_parent"
