@@ -17,4 +17,14 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: </string>
         <string name="facebook_app_id">1873120622971112</string>
+
+
+    <string name="loading">loading</string>
+
+    loading
+
+
+    <!-- Button text -->
+    <string name="btn_logout_from_google">Logout from Google</string>
+    <string name="btn_revoke_access">Revoke Access</string>
 </resources>
