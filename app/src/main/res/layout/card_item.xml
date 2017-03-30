@@ -15,7 +15,8 @@
         card_view:elevation="14dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginTop="10dp">
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="15dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +29,8 @@
                 android:id="@+id/content"
                 android:orientation="horizontal"
                 android:paddingLeft="10dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:layout_marginBottom="5dp">
 
 
                 <ImageView
@@ -48,13 +50,32 @@
                     android:textColor="@color/cardview_dark_background"
                     android:textSize="18sp"
                     android:textStyle="bold" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/date"
+                    android:text="30 mars 2017"
+                    android:layout_below="@id/tv_text"
+                    android:layout_marginLeft="45dp"
+                    android:textSize="12dp"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/location"
+                    android:text="Restaurant La Torretta , Sfax"
+                    android:drawableLeft="@drawable/location"
+                    android:layout_below="@id/date"
+                    android:layout_marginLeft="30dp"
+                    android:textSize="12dp"/>
             </RelativeLayout>
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="10dp">
+                android:paddingTop="10dp"
+                android:background="@drawable/background_card_view">
                 <ImageView
                     android:id="@+id/zoneimage"
                     android:layout_width="match_parent"
