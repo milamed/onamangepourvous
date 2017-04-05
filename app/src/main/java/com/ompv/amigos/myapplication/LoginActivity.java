@@ -224,7 +224,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
         handleSignInResult( result);
         Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
-        
+
         startActivity(mInfoProfil);
 
 
