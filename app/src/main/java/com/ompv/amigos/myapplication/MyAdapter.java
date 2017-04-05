@@ -22,6 +22,8 @@ import java.net.URL;
 import java.util.List;
 import android.widget.ImageView;
 
+import com.squareup.picasso.Picasso;
+
 import static android.R.attr.data;
 import static com.ompv.amigos.myapplication.R.id.image;
 
@@ -67,7 +69,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
     public void onBindViewHolder(MyViewHolder holder, int position){
         DataClassAtt p=mDataset.get(position);
         holder.mTextView.setText(p.getFirstName());
-        
+
        // Uri imgUri=Uri.parse(p.getMimage());
        // holder.mImage.setImageURI(imgUri);
 

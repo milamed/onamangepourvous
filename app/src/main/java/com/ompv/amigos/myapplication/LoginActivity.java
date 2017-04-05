@@ -47,6 +47,11 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
+    //private Intent mInfoProfil;
+    private Bundle mBundleInfoProfil;
+    public static final String KEY_PROFILE_NAME="PROFILE_NAME";
+    public static final String KEY_PROFILE_MAIL="PROFILE_MAIL";
+    public static final String KEY_PROFILE_IMAGE="PROFILE_IMAGE";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,8 +92,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
 
     private void signIn() {
-        Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
-        startActivity(intent);
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
     private void updateUI(boolean isSignedIn) {
@@ -139,6 +144,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Log.e(TAG, "Name: " + personName + ", email: " + email
                     + ", Image: " + personPhotoUrl);
+            mBundleInfoProfil = new Bundle();
+            mBundleInfoProfil.putString(KEY_PROFILE_NAME,personName);
+            mBundleInfoProfil.putString(KEY_PROFILE_MAIL,email);
+            mBundleInfoProfil.putString(KEY_PROFILE_IMAGE,personPhotoUrl);
 
             //  txtName.setText(personName);
             //txtEmail.setText(email);
@@ -170,7 +179,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
-            showProgressDialog();
+//            showProgressDialog();
             opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                 @Override
                 public void onResult(GoogleSignInResult googleSignInResult) {
@@ -212,6 +221,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode, resultCode, data);
         Log.e("data", data.toString());
+        GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+        handleSignInResult( result);
+        Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
+        
+        startActivity(mInfoProfil);
+
+
     }
 
     protected void getLoginDetails(LoginButton login_button) {
@@ -255,7 +271,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         switch (v.getId()) {
             case R.id.signIn: {
                 Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
-                startActivity(intent);
+               startActivity(intent);
 
             }
             break;
