@@ -2,6 +2,8 @@ package com.ompv.amigos.myapplication;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,6 +13,7 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -32,6 +35,19 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.ProtocolException;
+import java.net.URL;
+import java.net.URLEncoder;
+
+import javax.net.ssl.HttpsURLConnection;
+
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
 
@@ -47,11 +63,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private CallbackManager callbackManager;
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
-    //private Intent mInfoProfil;
-    private Bundle mBundleInfoProfil;
-    public static final String KEY_PROFILE_NAME="PROFILE_NAME";
-    public static final String KEY_PROFILE_MAIL="PROFILE_MAIL";
-    public static final String KEY_PROFILE_IMAGE="PROFILE_IMAGE";
+    private BackgroundTask mBackgroundTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +105,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     private void signIn() {
         Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
@@ -138,17 +151,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             Log.e(TAG, "display name: " + acct.getDisplayName());
 
-            String personName = acct.getDisplayName();
-            String personPhotoUrl = acct.getPhotoUrl().toString();
-            String email = acct.getEmail();
+/*
+            String personName = acct.getDisplayName().toString();
+            String personGivenName = acct.getGivenName().toString();
+            String personFamilyName = acct.getFamilyName().toString();
+            String personEmail = acct.getEmail().toString();
+            String personId = acct.getId();
+            String personPhoto = acct.getPhotoUrl().toString();
 
-            Log.e(TAG, "Name: " + personName + ", email: " + email
-                    + ", Image: " + personPhotoUrl);
-            mBundleInfoProfil = new Bundle();
-            mBundleInfoProfil.putString(KEY_PROFILE_NAME,personName);
-            mBundleInfoProfil.putString(KEY_PROFILE_MAIL,email);
-            mBundleInfoProfil.putString(KEY_PROFILE_IMAGE,personPhotoUrl);
+            Log.e(TAG, "Name: " + personName + ", email: " + personEmail
+                    + ", Image: " + personPhoto);
+            mBackgroundTask= new BackgroundTask();
+            mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
+            Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
 
+            startActivity(mInfoProfil);
+*/
             //  txtName.setText(personName);
             //txtEmail.setText(email);
 //            Glide.with(getApplicationContext()).load(personPhotoUrl)
@@ -159,7 +177,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             updateUI(true);
         } else {
-            // Signed out, show unauthenticated UI.
+            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
             updateUI(false);
         }
     }
@@ -222,10 +240,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         callbackManager.onActivityResult(requestCode, resultCode, data);
         Log.e("data", data.toString());
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-        handleSignInResult( result);
+       // handleSignInResult( result);
+        GoogleSignInAccount acct = result.getSignInAccount();
+        String personName = acct.getDisplayName();
+        String personGivenName = acct.getGivenName();
+        String personFamilyName = acct.getFamilyName();
+        String personEmail = acct.getEmail();
+        String personId = acct.getId();
+        String personPhoto = acct.getPhotoUrl().toString();
+
+       // mBackgroundTask= new BackgroundTask();
+        //mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
+        Toast.makeText(this, personName, Toast.LENGTH_SHORT).show();
         Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
 
-        startActivity(mInfoProfil);
+      //  startActivity(mInfoProfil);
+
 
 
     }
@@ -291,6 +321,109 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             break;
         }
+    }
 
+    class BackgroundTask extends AsyncTask<String,Void,String>
+    {
+
+        String addUser_url;
+        @Override
+        protected void onPreExecute() {
+
+            addUser_url ="https://onamangerpourvous.000webhostapp.com/addUser.php";
+        }
+
+        @Override
+        protected String doInBackground(String... args)  {
+            String nom,mail,image,id;
+            URL url = null;
+            id=args[0];
+            nom=args[1];
+            mail=args[2];
+            image=args[3];
+
+
+            try {
+                 url = new URL(addUser_url);
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            }
+            HttpsURLConnection httpsURLConnection = null;
+            try {
+                httpsURLConnection = (HttpsURLConnection) url.openConnection();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                httpsURLConnection.setRequestMethod("GET");
+            } catch (ProtocolException e) {
+                e.printStackTrace();
+            }
+            httpsURLConnection.setDoOutput(true);
+            OutputStream outputStream = null;
+            try {
+                outputStream = httpsURLConnection.getOutputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            BufferedWriter bufferedWriter = null;
+            try {
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            String data_string = null;
+            try {
+                data_string = URLEncoder.encode("idUser","UTF-8")+"="+URLEncoder.encode(id,"UTF-8")+"&"+
+                        URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode(nom,"UTF-8")+"&"+
+                        URLEncoder.encode("mail","UTF-8")+"="+URLEncoder.encode(mail,"UTF-8")+"&"+
+                        URLEncoder.encode("photo","UTF-8")+"="+URLEncoder.encode(image,"UTF-8");
+            } catch (UnsupportedEncodingException e) {
+                e.printStackTrace();
+            }
+            try {
+                bufferedWriter.write(data_string);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bufferedWriter.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                bufferedWriter.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                outputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            InputStream inputStream = null;
+            try {
+                inputStream = httpsURLConnection.getInputStream();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                inputStream.close();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            httpsURLConnection.disconnect();
+
+            return "One row of data Inserted ...";
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
     }
 }
