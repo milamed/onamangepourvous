@@ -256,12 +256,19 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
        // mBackgroundTask= new BackgroundTask();
         //mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
         Toast.makeText(this, personName+ " " +personEmail, Toast.LENGTH_SHORT).show();
+
+        saveUser(personName,personEmail,personPhoto);
+
+
+
+
+    }
+
+    private void saveUser(String name,String email,String photo) {
+        BackgroundSaveTask mBackgroundSaveTask= new BackgroundSaveTask();
+        mBackgroundSaveTask.execute(name,email,photo);
         Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
-
         startActivity(mInfoProfil);
-
-
-
     }
 
     protected void getLoginDetails(LoginButton login_button) {
@@ -429,5 +436,70 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
         }
+    }
+
+
+    /************************************************************************/
+    /************************************************************************/
+
+     class BackgroundSaveTask extends AsyncTask<String,Void,String> {
+
+        String maddUser_url;
+
+
+
+        @Override
+        protected void onPreExecute() {
+
+            maddUser_url = "https://onamangerpourvous.000webhostapp.com/addUser2.php";
+        }
+
+        @Override
+        protected String doInBackground(String... args) {
+            String nom="", mail="",photo="";
+            URL murl = null;
+            nom = args[0];
+            mail = args[1];
+            photo = args[2];
+
+            try {
+
+                maddUser_url="https://onamangerpourvous.000webhostapp.com/addUser2.php?name="+nom+"&mail="+mail+"&photo="+photo;
+                murl = new URL(maddUser_url);
+                HttpsURLConnection mhttpsURLConnection = (HttpsURLConnection) murl.openConnection();
+                mhttpsURLConnection.setRequestMethod("GET");
+                mhttpsURLConnection.setDoOutput(true);
+                OutputStream outputStream = mhttpsURLConnection.getOutputStream();
+               // BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+
+              /*  String data_string = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(nom, "UTF-8") + "&" +
+                        URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(mail, "UTF-8") + "&" +
+                        URLEncoder.encode("password", "UTF-8") + "=" + URLEncoder.encode(pass, "UTF-8");
+                bufferedWriter.write(data_string);
+                bufferedWriter.flush();
+                bufferedWriter.close();
+                outputStream.close();
+                */
+                InputStream inputStream = mhttpsURLConnection.getInputStream();
+                inputStream.close();
+                mhttpsURLConnection.disconnect();
+
+            } catch (MalformedURLException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return "One row of data Inserted ...";
+        }
+        @Override
+        protected void onPostExecute(String result)
+        {
+            Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
+        }
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
     }
 }
