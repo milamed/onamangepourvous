@@ -242,6 +242,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
        // handleSignInResult( result);
         GoogleSignInAccount acct = result.getSignInAccount();
+        if(acct == null){
+            Log.v("med","pffff");
+        }
+
         String personName = acct.getDisplayName();
         String personGivenName = acct.getGivenName();
         String personFamilyName = acct.getFamilyName();
