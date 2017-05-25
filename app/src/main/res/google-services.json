@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "760074738921",
+    "project_id": "on-a-mange-pour-vous-165711"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:760074738921:android:4f50833cb8ca3885",
+        "android_client_info": {
+          "package_name": "com.ompv.amigos.myapplication"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "760074738921-4ki40cqlnbpgkhd6v153mgnm2g6bser8.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "760074738921-9qs7o5g3l9uon4uingv93he435ao6lta.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ompv.amigos.myapplication",
+            "certificate_hash": "b3a755e2c7e6e41bdd984fca6799734cee780e53"
+          }
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAEJ37HEMn6SbO4enquiCVs44pqXKfh5XY"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

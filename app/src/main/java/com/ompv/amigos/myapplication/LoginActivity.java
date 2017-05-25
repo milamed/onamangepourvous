@@ -255,10 +255,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
        // mBackgroundTask= new BackgroundTask();
         //mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
-        Toast.makeText(this, personName, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, personName+ " " +personEmail, Toast.LENGTH_SHORT).show();
         Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
 
-      //  startActivity(mInfoProfil);
+        startActivity(mInfoProfil);
 
 
 
