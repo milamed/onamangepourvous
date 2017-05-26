@@ -246,13 +246,32 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         if(acct == null){
             Log.v("med","pffff");
         }
+        String personName="";
+        String personPhoto="";
+        String personEmail="";
+        if(acct.getDisplayName()!=null)
+        {
+            personName = acct.getDisplayName();
+        }
 
-        String personName = acct.getDisplayName();
+
+
+        if( acct.getEmail()!=null)
+        {
+             personEmail = acct.getEmail();
+        }
+
+        if( acct.getPhotoUrl()!=null)
+        {
+             personPhoto = acct.getPhotoUrl().toString();
+        }
+
+       // String personName = acct.getDisplayName();
         String personGivenName = acct.getGivenName();
         String personFamilyName = acct.getFamilyName();
-        String personEmail = acct.getEmail();
+       // String personEmail = acct.getEmail();
         String personId = acct.getId();
-        String personPhoto = acct.getPhotoUrl().toString();
+       // String personPhoto = acct.getPhotoUrl().toString();
 
        // mBackgroundTask= new BackgroundTask();
         //mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
