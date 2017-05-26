@@ -98,7 +98,7 @@ public class    MainActivityMEnu extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            startActivity(new Intent(this,SearchRestaurant.class));
         }
 
         return super.onOptionsItemSelected(item);

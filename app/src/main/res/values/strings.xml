@@ -16,7 +16,7 @@
     <string name="title_activity_main_menu">On a Mangé Pour Vous</string>
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: </string>
-        <string name="facebook_app_id">1873120622971112</string>
+    <string name="facebook_app_id">1873120622971112</string>
 
 
     <string name="loading">loading</string>

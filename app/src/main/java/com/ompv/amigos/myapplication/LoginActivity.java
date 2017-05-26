@@ -100,6 +100,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSignIn.setOnClickListener(this);
         mSignInWithFacebook.setOnClickListener(this);
         mSignInWithGoogle.setOnClickListener(this);
+        mHelp.setOnClickListener(this);
     }
 
 
@@ -324,6 +325,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             }
             break;
             case R.id.help: {
+
+                Intent intent = new Intent(getApplicationContext(), SearchRestaurant.class);
+                startActivity(intent);
             }
             break;
             case R.id.createAccount: {
