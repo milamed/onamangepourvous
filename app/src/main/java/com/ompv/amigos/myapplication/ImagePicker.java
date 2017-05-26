@@ -116,6 +116,7 @@ public class ImagePicker extends AppCompatActivity implements View.OnClickListen
 
     }
 
+
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {

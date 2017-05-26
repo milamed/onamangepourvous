@@ -14,10 +14,10 @@
 
     <ImageView
         android:id="@+id/img"
-        android:layout_width="400dp"
+        android:layout_width="250dp"
         android:layout_height="200dp"
-        app:srcCompat="@drawable/logo"
-        android:layout_marginTop="20dp"/>
+        android:layout_marginTop="20dp"
+        app:srcCompat="@drawable/logo" />
 
     <com.wrapp.floatlabelededittext.FloatLabeledEditText
         android:layout_width="match_parent"
