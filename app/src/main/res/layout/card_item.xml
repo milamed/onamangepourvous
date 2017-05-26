@@ -41,7 +41,7 @@
                     app:srcCompat="@drawable/user" />
 
                 <TextView
-                    android:id="@+id/tv_text"
+                    android:id="@+id/username"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:id="@+id/date"
                     android:text="30 mars 2017"
-                    android:layout_below="@id/tv_text"
+                    android:layout_below="@id/username"
                     android:layout_marginLeft="45dp"
                     android:textSize="12dp"/>
                 <TextView
@@ -80,7 +80,7 @@
                     android:id="@+id/zoneimage"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:clickable="true"
+
                     android:src="@drawable/chawarma" />
             </RelativeLayout>
 

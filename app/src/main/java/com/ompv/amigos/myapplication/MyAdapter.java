@@ -22,6 +22,7 @@ import java.net.URL;
 import java.util.List;
 import android.widget.ImageView;
 
+import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 import static android.R.attr.data;
@@ -32,32 +33,56 @@ import static com.ompv.amigos.myapplication.R.id.image;
  */
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
-    private List<DataClassAtt>  mDataset;
+    private List<DataAllPub>  mDataset;
     private Context context;
+
+    private LayoutInflater inflater;
+
     public static class MyViewHolder extends RecyclerView.ViewHolder{
 
         public CardView mCardView;
-        public TextView mTextView;
-        public TextView mEmail;
-        public  ImageView mImage;
+
+        public TextView midUser;
+        public TextView mtitle;
+        public TextView mdescription;
+        public ImageView mphoto;
+        public TextView mprice;
+        public TextView mnote;
+        public  TextView midRestaurant;
+        public  TextView mdate;
+        public  ImageView mphotoUser;
+
+
+
 
         public MyViewHolder(View v){
             super(v);
             mCardView = (CardView) v.findViewById(R.id.card_view);
-            mTextView = (TextView) v.findViewById(R.id.tv_text);
-            mImage = (ImageView) v.findViewById(R.id.zoneimage);
+            midUser = (TextView) v.findViewById(R.id.username);
+            midRestaurant = (TextView) v.findViewById(R.id.location);
+            mphoto= (ImageView) itemView.findViewById(R.id.zoneimage);
+            mphotoUser= (ImageView) itemView.findViewById(R.id.imgProfil);
+
+
+            mdate= (TextView) itemView.findViewById(R.id.date);
         }
 
     }
 
-    public MyAdapter(List<DataClassAtt> myDataset){
-        mDataset = myDataset;
+    public MyAdapter(Context context,List<DataAllPub> myDataset){
+
+        this.context=context;
+        this.mDataset = myDataset;
     }
 
     @Override
     public MyAdapter.MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
         View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.card_item, parent, false);
+
+
+
         MyViewHolder vh = new MyViewHolder(v);
+
         return vh;
     }
 
@@ -65,18 +90,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
 
     @Override
     public void onBindViewHolder(MyViewHolder holder, int position){
-        DataClassAtt p=mDataset.get(position);
-        holder.mTextView.setText(p.getFirstName());
+        DataAllPub p=mDataset.get(position);
+        holder.midUser.setText(p.nameUser);
+        holder.midRestaurant.setText(p.nameRestaurant);
+        holder.mdate.setText(p.datePub);
+        Glide.with(holder.mphoto.getContext()).load("https://onamangerpourvous.000webhostapp.com/" + p.photo).into(holder.mphoto);
+        Glide.with(holder.mphotoUser.getContext()).load( p.photoUser).into(holder.mphotoUser);
 
-       // Uri imgUri=Uri.parse(p.getMimage());
-       // holder.mImage.setImageURI(imgUri);
-
-       //  String image_url = ""+p.getMimage().toString();
-        // holder.mImage.setImageURI(Uri.parse(image_url));
-
-
-
-        Log.v("Context","imagefill :"+p.getMimage());
+     //   Log.v("Context","imagefill :"+p.getMimage());
 
 
     }
