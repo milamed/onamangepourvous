@@ -21,6 +21,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.roger.catloadinglibrary.CatLoadingView;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +38,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class MainActivityMEnuALLPUB extends Fragment {
 
@@ -69,15 +72,20 @@ public class MainActivityMEnuALLPUB extends Fragment {
         ProgressDialog pdLoading = new ProgressDialog(getContext());
         HttpURLConnection conn;
         URL url = null;
+        CatLoadingView mView= new CatLoadingView();;
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
 
             //this method will be running on UI thread
-            pdLoading.setMessage("\tLoading...");
+          /*  pdLoading.setMessage("\tLoading...");
             pdLoading.setCancelable(false);
-            pdLoading.show();
+            pdLoading.show();*/
+
+            mView.show(getFragmentManager(), "");
+
+
 
         }
 
@@ -188,7 +196,7 @@ public class MainActivityMEnuALLPUB extends Fragment {
 
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
-
+                mView.dismiss();
 
             } catch (JSONException e) {
                 Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();
