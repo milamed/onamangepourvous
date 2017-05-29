@@ -3,18 +3,22 @@ package com.ompv.amigos.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -59,6 +63,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Handler;
 
 import javax.net.ssl.HttpsURLConnection;
 
@@ -81,12 +86,15 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private ProgressDialog mProgressDialog;
     private BackgroundTask mBackgroundTask;
 
+    public CoordinatorLayout mcoordinatorlayout;
+
 
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
 
     public DataClassAtt mADataClassAtt;
 private Context context;
+
 
 
     @Override
@@ -109,6 +117,9 @@ private Context context;
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+
     }
 
     private void initViews() {
@@ -119,6 +130,8 @@ private Context context;
         mSignInWithGoogle = (SignInButton) findViewById(R.id.signInGoogle);
         mHelp = (TextView) findViewById(R.id.help);
         mCreateAccount = (TextView) findViewById(R.id.createAccount);
+
+        mcoordinatorlayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
 
         mCreateAccount.setOnClickListener(this);
         mSignIn.setOnClickListener(this);
@@ -356,7 +369,8 @@ private Context context;
         switch (v.getId()) {
             case R.id.signIn: {
 
-                signInService();
+
+              signInService();
 
             }
             break;
@@ -402,7 +416,7 @@ private Context context;
         protected void onPreExecute() {
             super.onPreExecute();
 
-            pdLoading.setMessage("\tLoading...");
+            pdLoading.setMessage("\tAuthentification...");
             pdLoading.setCancelable(false);
             pdLoading.show();
 
@@ -506,17 +520,40 @@ private Context context;
 
                      alldataPOST.add(postData);
                 }
-
+                pdLoading.hide();
                 if(test==true) {
 
-                    Log.v("Context", "imagefill :" + mUsername.getText().toString());
+                  //  Log.v("Context", "userconnect :" + mUsername.getText().toString());
                     Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
                     startActivity(intent);
                 }
                 else
                 {
-                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
-                    startActivity(intent);
+
+                    pdLoading.hide();
+                    //Snackbar.make(mcoordinatorlayout,"hello  from snackbar",Snackbar.LENGTH_LONG).setAction("action",null).show();
+
+
+                    Snackbar snackbar = Snackbar
+                            .make(mcoordinatorlayout, "Erreur d'Authentification !", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    // Changing message text color
+                    snackbar.setActionTextColor(Color.BLUE);
+
+                    // Changing action button text color
+                    View sbView = snackbar.getView();
+                   TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+
+                    snackbar.show();
+
                 }
 
 
@@ -527,6 +564,7 @@ private Context context;
         }
 
     }
+
 
 
 
