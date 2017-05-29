@@ -17,7 +17,7 @@
     <string name="action_settings">Settings</string>
     <string name="section_format">Hello World from section: </string>
     <string name="facebook_app_id">1873120622971112</string>
-
+    <string name="searchByName">Search By Restaurant Name</string>
 
     <string name="loading">loading</string>
 
