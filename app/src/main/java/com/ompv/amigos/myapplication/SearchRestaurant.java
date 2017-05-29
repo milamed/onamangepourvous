@@ -7,6 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.KeyEvent;
+import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -21,6 +28,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.ompv.amigos.myapplication.R.styleable.View;
+
 public class SearchRestaurant extends AppCompatActivity {
 
 
@@ -30,23 +39,85 @@ public class SearchRestaurant extends AppCompatActivity {
     public static final int READ_TIMEOUT = 15000;
     private RecyclerView mRVFishPrice;
     private AdapterRestaurant mAdapter;
-private Context context;
+    private EditText mEditTextSearch;
+    URL url = null;
+    String s = "";
+    private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_resto);
         //Make call to AsyncTask
         new AsyncFetch().execute();
+        initViews();
+
+        mEditTextSearch.setOnFocusChangeListener(new android.view.View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    Toast.makeText(getApplicationContext(), "got the focus", Toast.LENGTH_LONG).show();
+                }else {
+                    Toast.makeText(getApplicationContext(), "lost the focus", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
     }
+
+
+
+    private void initViews() {
+        mEditTextSearch = (EditText) findViewById(R.id.editTextSearch);
+
+      /*  mEditTextSearch.setOnFocusChangeListener(new OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(!hasFocus)
+                    Toast.makeText(getApplicationContext(), "unfocus", 2000).show();
+            }
+        });
+        */
+        mEditTextSearch.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    s = mEditTextSearch.getText().toString();
+                    new AsyncFetch().execute();
+                    return true;
+                }
+                return false;
+            }
+        });
+    }
+
+
 
     private class AsyncFetch extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(SearchRestaurant.this);
         HttpURLConnection conn;
-        URL url = null;
+
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
+            if("".equals(s)) {
+                // Enter URL address where your json file resides
+                // Even you can make call to php file which returns json data
+                try {
+                    url = new URL("https://onamangerpourvous.000webhostapp.com/listResto.php?action=getAllResto");
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+            System.out.println(url.toString());
+            }else{
+                try {
+                    url = new URL("https://onamangerpourvous.000webhostapp.com/filter.php?action=searchByRestoName&name="+s);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                }
+                System.out.println(url.toString());
+            }
+
+           // Toast.makeText(context,url.toString(), Toast.LENGTH_LONG).show();
 
             //this method will be running on UI thread
             pdLoading.setMessage("\tLoading...");
@@ -57,7 +128,7 @@ private Context context;
 
         @Override
         protected String doInBackground(String... params) {
-            try {
+           /* try {
 
                 // Enter URL address where your json file resides
                 // Even you can make call to php file which returns json data
@@ -68,6 +139,7 @@ private Context context;
                 e.printStackTrace();
                 return e.toString();
             }
+            */
             try {
 
                 // Setup HttpURLConnection class to send and receive data from php and mysql
@@ -124,7 +196,7 @@ private Context context;
         protected void onPostExecute(String result) {
 
             //this method will be running on UI thread
-
+            System.out.println(url.toString());
             pdLoading.dismiss();
             List<DataRestaurant> data=new ArrayList<>();
 
@@ -143,6 +215,7 @@ private Context context;
                     restaurantData.setmPhotos(json_data.getString("photos"));
                     data.add(restaurantData);
                 }
+
 
                 // Setup and Handover data to recyclerview
                 mRVFishPrice = (RecyclerView)findViewById(R.id.fishPriceList);

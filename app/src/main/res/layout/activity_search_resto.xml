@@ -1,15 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:orientation="vertical"
     android:layout_height="match_parent"
     tools:context="com.ompv.amigos.myapplication.SearchRestaurant">
+    <com.wrapp.floatlabelededittext.FloatLabeledEditText
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteY="0dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        tools:layout_editor_absoluteX="8dp">
+
+        <EditText
+            android:id="@+id/editTextSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/searchByName"
+            android:textColor="@color/color_black"
+            android:textColorHint="@color/color_gray"
+            android:drawableLeft="@drawable/searchbig"
+            android:imeOptions="actionSearch"
+            android:inputType="text"
+            />
+
+
+    </com.wrapp.floatlabelededittext.FloatLabeledEditText>
+
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/fishPriceList"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="437dp"
         android:paddingTop="10dp"
         android:layout_weight="1"
-        />
-</android.support.constraint.ConstraintLayout>
+        tools:layout_editor_absoluteY="8dp"
+        tools:layout_editor_absoluteX="8dp" />
+</LinearLayout>
