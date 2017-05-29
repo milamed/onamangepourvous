@@ -10,7 +10,7 @@ public class DataAllPub {
     public String nameRestaurant;
     public String nameUser;
     public int note;
-    public int likes;
+    public String likes;
     public String datePub;
     public String photoUser;
 

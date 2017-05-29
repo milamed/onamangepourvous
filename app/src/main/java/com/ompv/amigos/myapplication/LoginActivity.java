@@ -1,16 +1,24 @@
 package com.ompv.amigos.myapplication;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,19 +42,32 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
+import com.roger.catloadinglibrary.CatLoadingView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.io.UnsupportedEncodingException;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.logging.Handler;
 
 import javax.net.ssl.HttpsURLConnection;
+
+import static java.security.AccessController.getContext;
 
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener, GoogleApiClient.OnConnectionFailedListener {
@@ -64,6 +85,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private GoogleApiClient mGoogleApiClient;
     private ProgressDialog mProgressDialog;
     private BackgroundTask mBackgroundTask;
+
+    public CoordinatorLayout mcoordinatorlayout;
+
+
+    public static final int CONNECTION_TIMEOUT = 10000;
+    public static final int READ_TIMEOUT = 15000;
+
+    public DataClassAtt mADataClassAtt;
+private Context context;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +117,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
+
+
+
     }
 
     private void initViews() {
@@ -95,6 +130,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         mSignInWithGoogle = (SignInButton) findViewById(R.id.signInGoogle);
         mHelp = (TextView) findViewById(R.id.help);
         mCreateAccount = (TextView) findViewById(R.id.createAccount);
+
+        mcoordinatorlayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
 
         mCreateAccount.setOnClickListener(this);
         mSignIn.setOnClickListener(this);
@@ -331,8 +368,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.signIn: {
-                Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
-               startActivity(intent);
+
+
+              signInService();
 
             }
             break;
@@ -356,6 +394,181 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             break;
         }
     }
+
+    private void signInService() {
+        new AsyncLogin().execute();
+
+
+
+    }
+
+
+
+
+
+    private class AsyncLogin extends AsyncTask<String, String, String> {
+        ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
+        HttpURLConnection conn;
+        URL url = null;
+        CatLoadingView mView= new CatLoadingView();;
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            pdLoading.setMessage("\tAuthentification...");
+            pdLoading.setCancelable(false);
+            pdLoading.show();
+
+        }
+
+        @Override
+        protected String doInBackground(String... params) {
+            try {
+
+                // Enter URL address where your json file resides
+                // Even you can make call to php file which returns json data
+                url = new URL("http://onamangerpourvous.000webhostapp.com/afficheliste.php?action=get_allliste");
+
+            } catch (MalformedURLException e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+                return e.toString();
+            }
+            try {
+
+                // Setup HttpURLConnection class to send and receive data from php and mysql
+                conn = (HttpURLConnection) url.openConnection();
+                conn.setReadTimeout(READ_TIMEOUT);
+                conn.setConnectTimeout(CONNECTION_TIMEOUT);
+                conn.setRequestMethod("GET");
+
+                // setDoOutput to true as we recieve data from json file
+                conn.setDoOutput(true);
+
+            } catch (IOException e1) {
+                // TODO Auto-generated catch block
+                e1.printStackTrace();
+                return e1.toString();
+            }
+
+            try {
+
+                int response_code = conn.getResponseCode();
+
+                // Check if successful connection made
+                if (response_code == HttpURLConnection.HTTP_OK) {
+
+                    // Read data sent from server
+                    InputStream input = conn.getInputStream();
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(input));
+                    StringBuilder result = new StringBuilder();
+                    String line;
+
+                    while ((line = reader.readLine()) != null) {
+                        result.append(line);
+                    }
+
+                    // Pass data to onPostExecute method
+                    return (result.toString());
+
+                } else {
+
+                    return ("unsuccessful");
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
+                return e.toString();
+            } finally {
+                conn.disconnect();
+            }
+
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //this method will be running on UI thread
+
+            pdLoading.dismiss();
+            List<DataClassAtt> alldataPOST = new ArrayList<>();
+            boolean test=false;
+            pdLoading.dismiss();
+            try {
+
+                JSONArray jArray = new JSONArray(result);
+
+
+
+                // Extract data from json and store into ArrayList as class objects
+                for (int i = 0; i < jArray.length(); i++)
+                {
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    DataClassAtt postData = new DataClassAtt();
+                    if((json_data.getString("mail").toString().equals(mUsername.getText().toString()))&&
+                            (json_data.getString("password").toString().equals(mPassword.getText().toString())))
+                    {
+                       test =true;
+
+                         /* postData.setFirstName(json_data.getString("name"));
+                            postData.setEmail(json_data.getString("mail"));
+                            postData.setpassword(json_data.getString("password"));
+                            */
+                    }
+
+                     alldataPOST.add(postData);
+                }
+                pdLoading.hide();
+                if(test==true) {
+
+                  //  Log.v("Context", "userconnect :" + mUsername.getText().toString());
+                    Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
+                    startActivity(intent);
+                }
+                else
+                {
+
+                    pdLoading.hide();
+                    //Snackbar.make(mcoordinatorlayout,"hello  from snackbar",Snackbar.LENGTH_LONG).setAction("action",null).show();
+
+
+                    Snackbar snackbar = Snackbar
+                            .make(mcoordinatorlayout, "Erreur d'Authentification !", Snackbar.LENGTH_LONG)
+                            .setAction("RETRY", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                                    startActivity(intent);
+                                }
+                            });
+
+                    // Changing message text color
+                    snackbar.setActionTextColor(Color.BLUE);
+
+                    // Changing action button text color
+                    View sbView = snackbar.getView();
+                   TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextColor(Color.RED);
+
+                    snackbar.show();
+
+                }
+
+
+            } catch (JSONException e) {
+                Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
+            }
+
+        }
+
+    }
+
+
+
+
+
 
     class BackgroundTask extends AsyncTask<String,Void,String>
     {

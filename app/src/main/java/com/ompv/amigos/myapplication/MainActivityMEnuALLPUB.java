@@ -177,7 +177,7 @@ public class MainActivityMEnuALLPUB extends Fragment {
                     postData.photo = json_data.getString("photo");
                     postData.price = json_data.getString("price");
                     postData.note = json_data.getInt("note");
-                    postData.likes = json_data.getInt("likes");
+                    postData.likes = json_data.getString("likes");
                   //  postData.idUser = json_data.getInt("idUser");
                     postData.nameUser = json_data.getString("nameUser");
                  //   postData.idRestaurant = json_data.getInt("idRestaurant");
