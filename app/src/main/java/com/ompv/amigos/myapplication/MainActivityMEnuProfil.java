@@ -29,7 +29,7 @@ public class MainActivityMEnuProfil extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabprofil, container, false);
-         TextView textView = (TextView) rootView.findViewById(R.id.user_profile_name);
+        TextView textView = (TextView) rootView.findViewById(R.id.user_profile_name);
         textView.setText("new name");
 
         return rootView;

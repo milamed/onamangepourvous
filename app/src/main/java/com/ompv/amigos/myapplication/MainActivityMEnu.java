@@ -49,7 +49,7 @@ public class    MainActivityMEnu extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        getSupportActionBar().setLogo(R.drawable.logo);
+       // getSupportActionBar().setLogo(R.drawable.logo);
 
 
         // Create the adapter that will return a fragment for each of the three
