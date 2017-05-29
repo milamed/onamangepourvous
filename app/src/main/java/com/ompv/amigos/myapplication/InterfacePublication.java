@@ -42,6 +42,7 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interface_publication);
+        getSupportActionBar().hide();
         initViews();
 
         filename = getIntent().getStringExtra("pic");
