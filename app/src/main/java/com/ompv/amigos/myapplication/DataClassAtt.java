@@ -12,6 +12,7 @@ public class DataClassAtt {
     private String firstName;
 
     private String email;
+    private String password;
     private String mimage;
 
     public String getFirstName() {
@@ -30,6 +31,16 @@ public class DataClassAtt {
         this.email = email;
     }
 
+
+    public String getpassword() {
+        return password;
+    }
+
+    public void setpassword(String password) {
+        this.email = password;
+    }
+
+
     public String getMimage() {
         return mimage;
     }
@@ -44,4 +55,9 @@ public class DataClassAtt {
         this.email = email;
         this.mimage = mimage;
     }
+
+    public DataClassAtt() {
+
+    }
+
 }
