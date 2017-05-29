@@ -3,11 +3,13 @@ package com.ompv.amigos.myapplication;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -16,6 +18,16 @@ import com.squareup.picasso.Picasso;
 import net.gotev.uploadservice.MultipartUploadRequest;
 import net.gotev.uploadservice.UploadNotificationConfig;
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.mime.content.FileBody;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.util.EntityUtils;
+
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -36,17 +48,19 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
     private String filename;
     private String picpath;
     private PostTask mPostTask;
-
+    long  totalSize=0;
+ProgressBar progressBar;
     Bitmap bmp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_interface_publication);
-        getSupportActionBar().hide();
+        progressBar=(ProgressBar)findViewById(R.id.progressBar) ;
         initViews();
 
         filename = getIntent().getStringExtra("pic");
         picpath = getIntent().getStringExtra("path");
+        Toast.makeText(this, picpath, Toast.LENGTH_SHORT).show();
         try {
             FileInputStream is = this.openFileInput(filename);
             bmp = BitmapFactory.decodeStream(is);
@@ -85,7 +99,7 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
             String uploadId = UUID.randomUUID().toString();
 
             //Creating a multi part request
-            new MultipartUploadRequest(this, uploadId, "https://onamangerpourvous.000webhostapp.com/upload.php")
+            new MultipartUploadRequest(this, uploadId, "https://onamangerpourvous.000webhostapp.com/upload2.php")
                     .addFileToUpload(picpath, "image") //Adding file
                     .addParameter("name", filename) //Adding text parameter to the request
                     .setNotificationConfig(new UploadNotificationConfig())
@@ -104,7 +118,8 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
         {
             case R.id.share:
             {
-                uploadMultipart();
+                //uploadMultipart();
+             //   new UploadFileToServer().execute();
                 mPostTask.execute(mNomplat.getText().toString(),mDescription.getText().toString(),mPrix.getText().toString());
             }
         }
@@ -114,7 +129,6 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
 
     /************************************************************************/
     /************************************************************************/
-
     class PostTask extends AsyncTask<String,Void,String> {
 
         String maddUser_url;
@@ -162,6 +176,97 @@ public class InterfacePublication extends AppCompatActivity implements View.OnCl
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
+        }
+
+    }
+
+
+    private class UploadFileToServer extends AsyncTask<Void, Integer, String> {
+        @Override
+        protected void onPreExecute() {
+            // setting progress bar to zero
+            progressBar.setProgress(0);
+            super.onPreExecute();
+        }
+
+        @Override
+        protected void onProgressUpdate(Integer... progress) {
+            // Making progress bar visible
+            progressBar.setVisibility(View.VISIBLE);
+
+            // updating progress bar value
+            progressBar.setProgress(progress[0]);
+
+            // updating percentage value
+
+        }
+
+        @Override
+        protected String doInBackground(Void... params) {
+            return uploadFile();
+        }
+
+        @SuppressWarnings("deprecation")
+        private String uploadFile() {
+            String responseString = null;
+
+            HttpClient httpclient = new DefaultHttpClient();
+            HttpPost httppost = new HttpPost("http://geekdev.000webhostapp.com/fileUpload.php");
+
+            try {
+                AndroidMultiPartEntity entity = new AndroidMultiPartEntity(
+                        new AndroidMultiPartEntity.ProgressListener() {
+
+                            @Override
+                            public void transferred(long num) {
+                                publishProgress((int) ((num / (float) totalSize) * 100));
+                            }
+                        });
+
+                String chaine=("ahouuuu"+picpath);
+
+                // 004
+                File sourceFile = new File(picpath);
+
+                // Adding file data to http body
+                entity.addPart("image", new FileBody(sourceFile));
+
+                // Extra parameters if you want to pass to server
+
+
+                totalSize = entity.getContentLength();
+                httppost.setEntity(entity);
+
+                // Making server call
+                HttpResponse response = httpclient.execute(httppost);
+                HttpEntity r_entity = response.getEntity();
+
+                int statusCode = response.getStatusLine().getStatusCode();
+                if (statusCode == 200) {
+                    // Server response
+                    responseString = EntityUtils.toString(r_entity);
+                } else {
+                    responseString = "Error occurred! Http Status Code: "
+                            + statusCode;
+                }
+
+            } catch (ClientProtocolException e) {
+                responseString = e.toString();
+            } catch (IOException e) {
+                responseString = e.toString();
+            }
+
+            return responseString;
+
+        }
+
+        @Override
+        protected void onPostExecute(String result) {
+
+            //showAlert("Upload is Done");
+            super.onPostExecute(result);
+
+
         }
 
     }

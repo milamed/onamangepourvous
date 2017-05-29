@@ -222,7 +222,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
             updateUI(true);
         } else {
-            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
             updateUI(false);
         }
     }
