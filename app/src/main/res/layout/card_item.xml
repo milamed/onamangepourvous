@@ -75,6 +75,7 @@
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
                 android:paddingTop="10dp"
+                android:paddingBottom="5dp"
                 android:background="@drawable/background_card_view">
                 <ImageView
                     android:id="@+id/zoneimage"
@@ -90,7 +91,8 @@
                 android:orientation="horizontal"
                 android:paddingLeft="20dp"
                 android:paddingRight="20dp"
-                android:paddingTop="5dp">
+                android:paddingTop="10dp"
+                android:layout_marginTop="5dp">
 
                 <RelativeLayout
                     android:layout_width="fill_parent"
@@ -99,15 +101,28 @@
                     android:orientation="horizontal"
                     android:paddingLeft="20dp"
                     android:paddingRight="20dp"
-                    android:paddingTop="5dp">
+                    android:paddingTop="0dp">
 
+
+
+                    <TextView
+                        android:id="@+id/zonenblike"
+                        android:layout_width="10dp"
+                        android:layout_height="30dp"
+                        android:layout_marginRight="5dp"
+                        android:text="1"
+                        android:layout_marginTop="5dp"
+                        android:textSize="20dp"
+                        />
 
                     <TextView
                         android:id="@+id/like"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
+                        android:layout_toRightOf="@id/zonenblike"
                         android:background="@drawable/like_logo"
                         android:layout_marginRight="20dp"
+
                         />
 
 
@@ -120,20 +135,20 @@
                         android:background="@drawable/comment_logo"
                         android:layout_marginRight="20dp" />
 
-                    <TextView
+                  <!--  <TextView
                         android:id="@+id/favoris"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:layout_toRightOf="@id/comment"
                         android:background="@drawable/favoris_logo_black"
                         android:layout_marginRight="20dp"/>
-
+-->
 
                     <TextView
                         android:id="@+id/rate"
                         android:layout_width="30dp"
                         android:layout_height="30dp"
-                        android:layout_toRightOf="@id/favoris"
+                        android:layout_toRightOf="@id/comment"
                         android:background="@drawable/star_logo"
                         />
 

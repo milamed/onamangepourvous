@@ -1,16 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
+    android:background="#eaeaea"
     android:layout_height="match_parent">
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+
+        <RelativeLayout android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:id="@+id/profile_layoutuser"
+            android:background="@color/com_facebook_button_background_color">
+
+
         <ImageView
             android:id="@+id/header_cover_image"
             android:layout_width="match_parent"
-            android:layout_height="100dp"
+            android:layout_height="120dp"
             android:scaleType="centerCrop"
             android:src="@drawable/login_background" />
 
@@ -20,21 +29,12 @@
             android:layout_height="120dp"
             android:layout_below="@+id/header_cover_image"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="-60dp"
+            android:layout_marginTop="-80dp"
             android:background="@drawable/profile_circular_border_imageview"
             android:elevation="5dp"
             android:padding="20dp"
             android:scaleType="centerCrop"
             android:src="@drawable/account_circle" />
-
-        <RelativeLayout
-            android:id="@+id/profile_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/header_cover_image"
-            android:background="@color/com_facebook_button_background_color"
-            android:elevation="4dp"
-            android:paddingBottom="24dp">
 
 
 
@@ -43,19 +43,20 @@
                  android:layout_width="wrap_content"
                  android:layout_height="wrap_content"
                  android:layout_centerHorizontal="true"
-                 android:layout_marginTop="76dp"
+                 android:layout_marginTop="162dp"
                  android:text="Yessine Abid"
-                 android:textColor="#fff"
+                 android:textColor="@color/cardview_light_background"
                  android:textSize="24sp"
                  android:textStyle="bold" />
 
-        </RelativeLayout>
 
+
+        </RelativeLayout>
 
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/profile_layout"
+            android:layout_below="@+id/profile_layoutuser"
             android:layout_marginTop="5dp"
             android:orientation="vertical">
 

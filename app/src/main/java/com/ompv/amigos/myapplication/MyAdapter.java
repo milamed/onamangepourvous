@@ -51,7 +51,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         public  TextView midRestaurant;
         public  TextView mdate;
         public  ImageView mphotoUser;
-
+        public  TextView mzonenblike;
 
 
 
@@ -62,7 +62,7 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
             midRestaurant = (TextView) v.findViewById(R.id.location);
             mphoto= (ImageView) itemView.findViewById(R.id.zoneimage);
             mphotoUser= (ImageView) itemView.findViewById(R.id.imgProfil);
-
+            mzonenblike = (TextView) v.findViewById(R.id.zonenblike);
 
             mdate= (TextView) itemView.findViewById(R.id.date);
         }
@@ -94,6 +94,9 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.MyViewHolder> {
         holder.midUser.setText(p.nameUser);
         holder.midRestaurant.setText(p.nameRestaurant);
         holder.mdate.setText(p.datePub);
+        holder.mzonenblike.setText( p.likes);
+
+
         Glide.with(holder.mphoto.getContext()).load("https://onamangerpourvous.000webhostapp.com/" + p.photo).into(holder.mphoto);
         Glide.with(holder.mphotoUser.getContext()).load( p.photoUser).into(holder.mphotoUser);
 
