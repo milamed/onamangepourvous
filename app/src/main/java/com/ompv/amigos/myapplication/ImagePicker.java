@@ -2,6 +2,7 @@ package com.ompv.amigos.myapplication;
 
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Typeface;
@@ -116,12 +117,29 @@ public class ImagePicker extends AppCompatActivity implements View.OnClickListen
 
     }
 
+    public String getPath(Uri uri) {
+        Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+        cursor.moveToFirst();
+        String document_id = cursor.getString(0);
+        document_id = document_id.substring(document_id.lastIndexOf(":") + 1);
+        cursor.close();
+
+        cursor = getContentResolver().query(
+                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
+                null, MediaStore.Images.Media._ID + " = ? ", new String[]{document_id}, null);
+        cursor.moveToFirst();
+        String path = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Media.DATA));
+        cursor.close();
+
+        return path;
+    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == REQUEST_TAKE_PHOTO && resultCode == RESULT_OK) {
             Bundle extras = data.getExtras();
             Bitmap imageBitmap = (Bitmap) extras.get("data");
+
             //mImage.setImageBitmap(imageBitmap);
             //Write file
             String filename = "bitmap.png";
@@ -169,6 +187,7 @@ public class ImagePicker extends AppCompatActivity implements View.OnClickListen
                 //Pop intent
                 Intent in1 = new Intent(this, InterfacePublication.class);
                 in1.putExtra("pic", filename);
+                in1.putExtra("path",getPath(imageURI) );
                 startActivity(in1);
             } catch (FileNotFoundException e) {
                 e.printStackTrace();

@@ -48,7 +48,6 @@ public class MainActivityMEnuALLPUB extends Fragment {
     private RecyclerView rv;
     Context context ;
 
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +60,7 @@ public class MainActivityMEnuALLPUB extends Fragment {
 
         View rootView = inflater.inflate(R.layout.taballpub, container, false);
         rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
+
 
         new AsyncLogin().execute();
 
