@@ -3,6 +3,8 @@ package com.ompv.amigos.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -88,18 +90,24 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     public CoordinatorLayout mcoordinatorlayout;
 
-
+    private SQLiteDatabase db;
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
 
     public DataClassAtt mADataClassAtt;
-private Context context;
+    private Context context;
 
+    protected void createDatabase() {
+        db = openOrCreateDatabase("PersonDB", Context.MODE_PRIVATE, null);
+        db.execSQL("CREATE TABLE IF NOT EXISTS user(idUser INTEGER PRIMARY KEY , password VARCHAR," +
+                "mail VARCHAR,phone VARCHAR,name VARCHAR,photo VARCHAR);");
+    }
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        createDatabase();
         facebookSDKInitialize();
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         //Remove notification bar
@@ -119,7 +127,6 @@ private Context context;
                 .build();
 
 
-
     }
 
     private void initViews() {
@@ -131,7 +138,7 @@ private Context context;
         mHelp = (TextView) findViewById(R.id.help);
         mCreateAccount = (TextView) findViewById(R.id.createAccount);
 
-        mcoordinatorlayout=(CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        mcoordinatorlayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         mCreateAccount.setOnClickListener(this);
         mSignIn.setOnClickListener(this);
@@ -278,53 +285,47 @@ private Context context;
         callbackManager.onActivityResult(requestCode, resultCode, data);
         Log.e("data", data.toString());
         GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
-       // handleSignInResult( result);
+        // handleSignInResult( result);
         GoogleSignInAccount acct = result.getSignInAccount();
-        if(acct == null){
-            Log.v("med","pffff");
+        if (acct == null) {
+            Log.v("med", "pffff");
         }
-        String personName="";
-        String personPhoto="";
-        String personEmail="";
-        if(acct.getDisplayName()!=null)
-        {
+        String personName = "";
+        String personPhoto = "";
+        String personEmail = "";
+        if (acct.getDisplayName() != null) {
             personName = acct.getDisplayName();
         }
 
 
-
-        if( acct.getEmail()!=null)
-        {
-             personEmail = acct.getEmail();
+        if (acct.getEmail() != null) {
+            personEmail = acct.getEmail();
         }
 
-        if( acct.getPhotoUrl()!=null)
-        {
-             personPhoto = acct.getPhotoUrl().toString();
+        if (acct.getPhotoUrl() != null) {
+            personPhoto = acct.getPhotoUrl().toString();
         }
 
-       // String personName = acct.getDisplayName();
+        // String personName = acct.getDisplayName();
         String personGivenName = acct.getGivenName();
         String personFamilyName = acct.getFamilyName();
-       // String personEmail = acct.getEmail();
+        // String personEmail = acct.getEmail();
         String personId = acct.getId();
-       // String personPhoto = acct.getPhotoUrl().toString();
+        // String personPhoto = acct.getPhotoUrl().toString();
 
-       // mBackgroundTask= new BackgroundTask();
+        // mBackgroundTask= new BackgroundTask();
         //mBackgroundTask.execute(personId,personName,personEmail,personPhoto);
-        Toast.makeText(this, personName+ " " +personEmail, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, personName + " " + personEmail, Toast.LENGTH_SHORT).show();
 
-        saveUser(personName,personEmail,personPhoto);
-
-
+        saveUser(personName, personEmail, personPhoto);
 
 
     }
 
-    private void saveUser(String name,String email,String photo) {
-        BackgroundSaveTask mBackgroundSaveTask= new BackgroundSaveTask();
-        mBackgroundSaveTask.execute(name,email,photo);
-        Intent mInfoProfil = new Intent(LoginActivity.this,MainActivityMEnu.class);
+    private void saveUser(String name, String email, String photo) {
+        BackgroundSaveTask mBackgroundSaveTask = new BackgroundSaveTask();
+        mBackgroundSaveTask.execute(name, email, photo);
+        Intent mInfoProfil = new Intent(LoginActivity.this, MainActivityMEnu.class);
         startActivity(mInfoProfil);
     }
 
@@ -370,7 +371,7 @@ private Context context;
             case R.id.signIn: {
 
 
-              signInService();
+                signInService();
 
             }
             break;
@@ -399,18 +400,15 @@ private Context context;
         new AsyncLogin().execute();
 
 
-
     }
-
-
-
 
 
     private class AsyncLogin extends AsyncTask<String, String, String> {
         ProgressDialog pdLoading = new ProgressDialog(LoginActivity.this);
         HttpURLConnection conn;
         URL url = null;
-        CatLoadingView mView= new CatLoadingView();;
+        CatLoadingView mView = new CatLoadingView();
+        ;
 
         @Override
         protected void onPreExecute() {
@@ -487,6 +485,28 @@ private Context context;
 
         }
 
+        protected void affiche() {
+
+
+            String query = "select * from user ;";
+
+
+            Cursor cursor = db.rawQuery(query, null);
+            List<DataClassAtt> l = new ArrayList<>();
+            if (cursor.moveToFirst()) {
+                do {
+                    l.add(new DataClassAtt(cursor.getString(4), cursor.getInt(0), cursor.getString(2),
+                            cursor.getString(1), cursor.getString(3), cursor.getString(5)));
+
+                } while (cursor.moveToNext());
+            }
+
+            for (DataClassAtt p : l) {
+                Toast.makeText(getApplicationContext(), l.toString(), Toast.LENGTH_LONG).show();
+            }
+            //Toast.makeText(getApplicationContext(),"Saved Successfully", Toast.LENGTH_LONG).show();
+        }
+
         @Override
         protected void onPostExecute(String result) {
 
@@ -494,41 +514,58 @@ private Context context;
 
             pdLoading.dismiss();
             List<DataClassAtt> alldataPOST = new ArrayList<>();
-            boolean test=false;
+            boolean test = false;
             pdLoading.dismiss();
             try {
 
                 JSONArray jArray = new JSONArray(result);
 
 
-
                 // Extract data from json and store into ArrayList as class objects
-                for (int i = 0; i < jArray.length(); i++)
-                {
+                for (int i = 0; i < jArray.length(); i++) {
                     JSONObject json_data = jArray.getJSONObject(i);
                     DataClassAtt postData = new DataClassAtt();
-                    if((json_data.getString("mail").toString().equals(mUsername.getText().toString()))&&
-                            (json_data.getString("password").toString().equals(mPassword.getText().toString())))
-                    {
-                       test =true;
+                    if ((json_data.getString("mail").toString().equals(mUsername.getText().toString())) &&
+                            (json_data.getString("password").toString().equals(mPassword.getText().toString()))) {
+                        test = true;
 
                          /* postData.setFirstName(json_data.getString("name"));
                             postData.setEmail(json_data.getString("mail"));
                             postData.setpassword(json_data.getString("password"));
+                           `idUser`, `password`, `mail`, `phone`, `name`, `photo`
                             */
+                        String userName = json_data.getString("name").toString();
+                        String userMail = json_data.getString("mail").toString();
+                        String userPassword = json_data.getString("password").toString();
+                        String userPhone = json_data.getString("phone").toString();
+                        String userPhoto = json_data.getString("photo").toString();
+                        int idUser = json_data.getInt("idUser");
+
+                        db.execSQL("delete from user");
+
+                        String query = "INSERT INTO user(name, password, mail, phone,  photo,idUser)  " +
+                                "VALUES('" + userName + "', '" + userPassword + "', '" + userMail + "', '" + userPhone + "', '" + userPhoto + "', " + idUser + ");";
+                        db.execSQL(query);
+
+
+                        pdLoading.hide();
+
                     }
 
-                     alldataPOST.add(postData);
+
+
+
+
+                    alldataPOST.add(postData);
                 }
                 pdLoading.hide();
-                if(test==true) {
+                if (test == true) {
 
-                  //  Log.v("Context", "userconnect :" + mUsername.getText().toString());
+
+                    //  Log.v("Context", "userconnect :" + mUsername.getText().toString());
                     Intent intent = new Intent(getApplicationContext(), MainActivityMEnu.class);
                     startActivity(intent);
-                }
-                else
-                {
+                } else {
 
                     pdLoading.hide();
                     //Snackbar.make(mcoordinatorlayout,"hello  from snackbar",Snackbar.LENGTH_LONG).setAction("action",null).show();
@@ -549,7 +586,7 @@ private Context context;
 
                     // Changing action button text color
                     View sbView = snackbar.getView();
-                   TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
+                    TextView textView = (TextView) sbView.findViewById(android.support.design.R.id.snackbar_text);
                     textView.setTextColor(Color.RED);
 
                     snackbar.show();
@@ -566,32 +603,28 @@ private Context context;
     }
 
 
-
-
-
-
-    class BackgroundTask extends AsyncTask<String,Void,String>
-    {
+    class BackgroundTask extends AsyncTask<String, Void, String> {
 
         String addUser_url;
+
         @Override
         protected void onPreExecute() {
 
-            addUser_url ="https://onamangerpourvous.000webhostapp.com/addUser.php";
+            addUser_url = "https://onamangerpourvous.000webhostapp.com/addUser.php";
         }
 
         @Override
-        protected String doInBackground(String... args)  {
-            String nom,mail,image,id;
+        protected String doInBackground(String... args) {
+            String nom, mail, image, id;
             URL url = null;
-            id=args[0];
-            nom=args[1];
-            mail=args[2];
-            image=args[3];
+            id = args[0];
+            nom = args[1];
+            mail = args[2];
+            image = args[3];
 
 
             try {
-                 url = new URL(addUser_url);
+                url = new URL(addUser_url);
             } catch (MalformedURLException e) {
                 e.printStackTrace();
             }
@@ -615,16 +648,16 @@ private Context context;
             }
             BufferedWriter bufferedWriter = null;
             try {
-                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream,"UTF-8"));
+                bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
             String data_string = null;
             try {
-                data_string = URLEncoder.encode("idUser","UTF-8")+"="+URLEncoder.encode(id,"UTF-8")+"&"+
-                        URLEncoder.encode("name","UTF-8")+"="+URLEncoder.encode(nom,"UTF-8")+"&"+
-                        URLEncoder.encode("mail","UTF-8")+"="+URLEncoder.encode(mail,"UTF-8")+"&"+
-                        URLEncoder.encode("photo","UTF-8")+"="+URLEncoder.encode(image,"UTF-8");
+                data_string = URLEncoder.encode("idUser", "UTF-8") + "=" + URLEncoder.encode(id, "UTF-8") + "&" +
+                        URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(nom, "UTF-8") + "&" +
+                        URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(mail, "UTF-8") + "&" +
+                        URLEncoder.encode("photo", "UTF-8") + "=" + URLEncoder.encode(image, "UTF-8");
             } catch (UnsupportedEncodingException e) {
                 e.printStackTrace();
             }
@@ -663,11 +696,12 @@ private Context context;
 
             return "One row of data Inserted ...";
         }
+
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
             Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
         }
+
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
@@ -678,10 +712,9 @@ private Context context;
     /************************************************************************/
     /************************************************************************/
 
-     class BackgroundSaveTask extends AsyncTask<String,Void,String> {
+    class BackgroundSaveTask extends AsyncTask<String, Void, String> {
 
         String maddUser_url;
-
 
 
         @Override
@@ -692,7 +725,7 @@ private Context context;
 
         @Override
         protected String doInBackground(String... args) {
-            String nom="", mail="",photo="";
+            String nom = "", mail = "", photo = "";
             URL murl = null;
             nom = args[0];
             mail = args[1];
@@ -700,13 +733,13 @@ private Context context;
 
             try {
 
-                maddUser_url="https://onamangerpourvous.000webhostapp.com/addUser2.php?name="+nom+"&mail="+mail+"&photo="+photo;
+                maddUser_url = "https://onamangerpourvous.000webhostapp.com/addUser2.php?name=" + nom + "&mail=" + mail + "&photo=" + photo;
                 murl = new URL(maddUser_url);
                 HttpsURLConnection mhttpsURLConnection = (HttpsURLConnection) murl.openConnection();
                 mhttpsURLConnection.setRequestMethod("GET");
                 mhttpsURLConnection.setDoOutput(true);
                 OutputStream outputStream = mhttpsURLConnection.getOutputStream();
-               // BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
+                // BufferedWriter bufferedWriter = new BufferedWriter(new OutputStreamWriter(outputStream, "UTF-8"));
 
               /*  String data_string = URLEncoder.encode("name", "UTF-8") + "=" + URLEncoder.encode(nom, "UTF-8") + "&" +
                         URLEncoder.encode("mail", "UTF-8") + "=" + URLEncoder.encode(mail, "UTF-8") + "&" +
@@ -727,11 +760,12 @@ private Context context;
             }
             return "One row of data Inserted ...";
         }
+
         @Override
-        protected void onPostExecute(String result)
-        {
+        protected void onPostExecute(String result) {
             Toast.makeText(LoginActivity.this, result, Toast.LENGTH_SHORT).show();
         }
+
         @Override
         protected void onProgressUpdate(Void... values) {
             super.onProgressUpdate(values);
