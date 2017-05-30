@@ -42,10 +42,20 @@ public class SearchRestaurant extends AppCompatActivity {
     private EditText mEditTextSearch;
     URL url = null;
     String s = "";
+    double lat;
+    double lng;
     private Context context;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        GPSTracker GPS = new GPSTracker(this);
+
+        lat = GPS.getLatitude();
+        lng = GPS.getLongitude();
+
+      //  Toast.makeText(getApplicationContext(), Double.toString(lat), Toast.LENGTH_LONG).show();
+        // Toast.makeText(getApplicationContext(), Double.toString(lng), Toast.LENGTH_LONG).show();
+
         setContentView(R.layout.activity_search_resto);
         //Make call to AsyncTask
         new AsyncFetch().execute();
