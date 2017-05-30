@@ -6,6 +6,8 @@ package com.ompv.amigos.myapplication;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,12 +15,15 @@ import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
@@ -38,20 +43,29 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.facebook.FacebookSdk.getApplicationContext;
+
 public class MainActivityMEnuProfil extends Fragment {
 
 
-
+    private SQLiteDatabase db;
 
     public static final int CONNECTION_TIMEOUT = 10000;
     public static final int READ_TIMEOUT = 15000;
     private RecyclerView rv;
     Context context ;
 
+    private static String DB_PATH = "/data/data/com.ompv.amigos.myapplication/databases/PersonDB";
+
+    private static String DB_NAME = "PersonDB";
+
+
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         this.context= context;
+
     }
 
     @Override
@@ -59,12 +73,48 @@ public class MainActivityMEnuProfil extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.tabprofil, container, false);
         TextView textView = (TextView) rootView.findViewById(R.id.user_profile_name);
-        textView.setText("new name");
+        ImageView profile_photo = (ImageView) rootView.findViewById(R.id.user_profile_photo);
+        textView.setText("Yessine Abid");
+     //profile_photo.setImageURI("http://wallpaper-gallery.net/images/image/image-13.jpg");
+        Glide.with(profile_photo.getContext()).load( "http://wallpaper-gallery.net/images/image/image-13.jpg");
 
         rv = (RecyclerView) rootView.findViewById(R.id.rv_recycler_view);
 
-        new  AsyncLogin().execute();
+
+        // affiche();
+
+
+
+         new  AsyncLogin().execute();
         return rootView;
+    }
+
+
+
+    protected void affiche() {
+
+
+        String query = "select * from user; ";
+
+
+         db =  db.openDatabase(DB_PATH + DB_NAME, null, SQLiteDatabase.OPEN_READONLY);
+
+        Cursor cursor = db.rawQuery(query, null);
+        List<DataClassAtt> l = new ArrayList<>();
+        if (cursor.moveToFirst()) {
+            do {
+                l.add(new DataClassAtt(cursor.getString(4), cursor.getInt(0), cursor.getString(2),
+                        cursor.getString(1), cursor.getString(3), cursor.getString(5)));
+
+            } while (cursor.moveToNext());
+        }
+
+        for (DataClassAtt p : l) {
+            Toast.makeText(context, l.size(), Toast.LENGTH_LONG).show();
+        }
+        //Toast.makeText(getApplicationContext(),"Saved Successfully", Toast.LENGTH_LONG).show();
+
+       // new  AsyncLogin().execute();
     }
 
 
@@ -189,7 +239,6 @@ public class MainActivityMEnuProfil extends Fragment {
                     alldataPOST.add(postData);
                 }
 
-
                 rv.setHasFixedSize(true);
 
                 MyAdapter adapter = new MyAdapter(context,alldataPOST);
@@ -198,6 +247,8 @@ public class MainActivityMEnuProfil extends Fragment {
                 LinearLayoutManager llm = new LinearLayoutManager(getActivity());
                 rv.setLayoutManager(llm);
                 mView.dismiss();
+
+                //affiche();
 
             } catch (JSONException e) {
                 Toast.makeText(getContext(), e.toString(), Toast.LENGTH_LONG).show();

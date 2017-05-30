@@ -546,7 +546,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 "VALUES('" + userName + "', '" + userPassword + "', '" + userMail + "', '" + userPhone + "', '" + userPhoto + "', " + idUser + ");";
                         db.execSQL(query);
 
-
+                        affiche();
                         pdLoading.hide();
 
                     }
